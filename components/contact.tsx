@@ -1,5 +1,6 @@
 "use client"
 
+
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -28,8 +29,8 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Email</p>
-                  <a href="mailto:hellothailago@gmail.com" className="hover:text-primary transition-colors">
-                    hellothailago@gmail.com
+                  <a href="mailto:contato@sofiamartins.com" className="hover:text-primary transition-colors">
+                    contato@sofiamartins.com
                   </a>
                 </div>
               </div>
@@ -40,8 +41,8 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Telefone</p>
-                  <a href="tel:+5571991686688" className="hover:text-primary transition-colors">
-                    (71) 99168-6688
+                  <a href="tel:+351912345678" className="hover:text-primary transition-colors">
+                    +351 912 345 678
                   </a>
                 </div>
               </div>
@@ -53,12 +54,12 @@ export function Contact() {
                 <div>
                   <p className="text-sm text-muted-foreground">Instagram</p>
                   <a
-                    href="https://www.instagram.com/ateliethailago"
+                    href="https://instagram.com/sofiamartins.aquarela"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-primary transition-colors"
                   >
-                    @ateliethailago
+                    @sofiamartins.aquarela
                   </a>
                 </div>
               </div>
@@ -86,7 +87,7 @@ export function Contact() {
                 <label htmlFor="phone" className="text-sm font-medium mb-2 block">
                   Telefone
                 </label>
-                <Input id="phone" type="tel" placeholder="(71) 99168-6688" />
+                <Input id="phone" type="tel" placeholder="+351" />
               </div>
 
               <div>

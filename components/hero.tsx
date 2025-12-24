@@ -1,21 +1,96 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowDown } from "lucide-react"
 
 export function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // Função para tentar reproduzir o vídeo
+    const attemptPlay = async () => {
+      try {
+        await video.play()
+        setIsPlaying(true)
+      } catch (error) {
+        // Autoplay foi bloqueado
+        setIsPlaying(false)
+      }
+    }
+
+    // Tenta reproduzir quando o vídeo estiver pronto
+    const handleCanPlay = () => {
+      attemptPlay()
+    }
+
+    // Tenta reproduzir quando houver dados suficientes
+    const handleLoadedData = () => {
+      attemptPlay()
+    }
+
+    // Tenta reproduzir imediatamente
+    attemptPlay()
+
+    // Adiciona listeners para quando o vídeo estiver pronto
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('loadeddata', handleLoadedData)
+
+    // Se autoplay falhar, tenta quando o usuário interagir com a página
+    const handleInteraction = () => {
+      attemptPlay()
+    }
+
+    // Escuta qualquer interação na página (não só no hero)
+    document.addEventListener('click', handleInteraction, { once: true })
+    document.addEventListener('touchstart', handleInteraction, { once: true })
+    document.addEventListener('scroll', handleInteraction, { once: true })
+    document.addEventListener('keydown', handleInteraction, { once: true })
+
+    // Monitora o estado do vídeo
+    const handlePlay = () => setIsPlaying(true)
+    const handlePause = () => setIsPlaying(false)
+    
+    video.addEventListener('play', handlePlay)
+    video.addEventListener('pause', handlePause)
+
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('play', handlePlay)
+      video.removeEventListener('pause', handlePause)
+      document.removeEventListener('click', handleInteraction)
+      document.removeEventListener('touchstart', handleInteraction)
+      document.removeEventListener('scroll', handleInteraction)
+      document.removeEventListener('keydown', handleInteraction)
+    }
+  }, [])
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-20">
       {/* Background video */}
       <div className="absolute inset-0 z-0">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover"
+          preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+          poster="/artist-hand-painting-closeup.png"
+          className="w-full h-full object-cover pointer-events-none video-no-controls"
         >
           <source src="/intro-video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/90" />
+        {/* Overlay que cobre qualquer controle que apareça */}
+        <div className="absolute inset-0 z-[1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/90 z-[2]" />
       </div>
 
       {/* Content */}
